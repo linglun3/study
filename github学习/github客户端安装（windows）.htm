@@ -1,0 +1,117 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <title></title>
+<style id="system" type="text/css">h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;    font-size: 13px;    line-height: 18px;    color: #737373;    margin: 10px 13px 10px 13px;}a {    color: #0069d6;}a:hover {    color: #0050a3;    text-decoration: none;}a img {    border: none;}p {    margin-bottom: 9px;}h1,h2,h3,h4,h5,h6 {    color: #404040;    line-height: 36px;}h1 {    margin-bottom: 18px;    font-size: 30px;}h2 {    font-size: 24px;}h3 {    font-size: 18px;}h4 {    font-size: 16px;}h5 {    font-size: 14px;}h6 {    font-size: 13px;}hr {    margin: 0 0 19px;    border: 0;    border-bottom: 1px solid #ccc;}blockquote {    padding: 13px 13px 21px 15px;    margin-bottom: 18px;    font-family:georgia,serif;    font-style: italic;}blockquote:before {    content:"C";    font-size:40px;    margin-left:-10px;    font-family:georgia,serif;    color:#eee;}blockquote p {    font-size: 14px;    font-weight: 300;    line-height: 18px;    margin-bottom: 0;    font-style: italic;}code, pre {    font-family: Monaco, Andale Mono, Courier New, monospace;}code {    background-color: #fee9cc;    color: rgba(0, 0, 0, 0.75);    padding: 1px 3px;    font-size: 12px;    -webkit-border-radius: 3px;    -moz-border-radius: 3px;    border-radius: 3px;}pre {    display: block;    padding: 14px;    margin: 0 0 18px;    line-height: 16px;    font-size: 11px;    border: 1px solid #d9d9d9;    white-space: pre-wrap;    word-wrap: break-word;}pre code {    background-color: #fff;    color:#737373;    font-size: 11px;    padding: 0;}@media screen and (min-width: 768px) {    body {        width: 748px;        margin:10px auto;    }}</style><style id="custom" type="text/css"></style></head>
+<body marginheight="0"><h1>github客户端的安装（windows）</h1>
+<p><img src="http://finds.org.uk/assets/github-logo.png.pagespeed.ce.3uvSkIONKV.png" alt="github">
+
+
+
+</p>
+<h3>一、github是什么？</h3>
+<p>Git是一个分布式的版本控制系统，最初由Linus Torvalds编写，用作Linux内核代码的管理。
+在推出后，Git在其它项目中也取得了很大成功。
+Git同样可以被诸如Capistrano和Vlad the Deployer这样的部署工具所使用作为开源代码库以及版本控制系统，
+Github目前拥有140多万开发者用户。随着越来越多的应用程序转移到了云上，
+Github已经成为了管理软件开发以及发现已有代码的首选方法。
+
+</p>
+<p>GitHub可以托管各种git库，并提供一个web界面，
+但与其它像 SourceForge或Google Code这样的服务不同，
+GitHub的独特卖点在于从另外一个项目进行分支的简易性。为一个项目贡献代码非常简单：
+首先点击项目站点的“fork”的按钮，然后将代码检出并将修改加入到刚才分出的代码库中，
+最后通过内建的“pull request”机制向项目负责人申请代码合并。
+已经有人将GitHub称为代码玩家的MySpace。
+
+</p>
+<h3>二、注册账户以及创建仓库</h3>
+<p>要想使用github第一步当然是注册github账号了。github的网址：<a href="https://github.com/">https://github.com/</a>
+之后就可以创建仓库了（免费用户只能建公共仓库），Create a New Repository，
+填好名称后Create，之后会出现一些仓库的配置信息。
+
+</p>
+<h3>三、安装客户端msysgit</h3>
+<p>github是服务端，要想在自己电脑上使用git我们还需要一个git客户端，
+我这里选用msysgit，这个只是提供了git的核心功能，而且是基于命令行的。
+如果想要图形界面的话只要在msysgit的基础上安装TortoiseGit即可。
+
+</p>
+<p>装完msysgit后右键鼠标会多出一些选项来，在本地仓库里右键选择Git Init Here，
+会多出来一个.git文件夹，这就表示本地git创建成功。右键Git Bash进入git命令行，
+为了把本地的仓库传到github，还需要配置ssh key。
+
+</p>
+<h3>四、配置Git</h3>
+<p>首先在本地创建ssh key，在bash中输入；
+
+</p>
+<pre><code> $ ssh-keygen -t rsa -C "your_email@youremail.com"</code></pre>
+<p>后面的your_email@youremail.com改为自己的邮箱，之后会要求确认路径和输入密码，
+我们这使用默认的一路回车就行。成功的话会在~/下生成.ssh文件夹<strong>(即电脑/用户路径)</strong>，进去，打开id_rsa.pub，复制里面的key。
+
+</p>
+<p>回到<a href="https://github.com/">github</a>，进入Account Settings，左边选择SSH Keys，
+Add SSH Key,title随便填，粘贴key。为了验证是否成功，在git bash下输入：
+
+</p>
+<pre><code> $ ssh -T git@github.com</code></pre>
+<p>如果是第一次的会提示是否continue，输入yes就会看到：You've 
+successfully authenticated, but GitHub does not provide shell access 。这就表示已成功连上github。
+
+</p>
+<p>接下来我们要做的就是把本地仓库传到github上去，在此之前还需要设置username和email，因为github每次commit都会记录他们。
+
+</p>
+<pre><code> $ git config --global user.name "your name"
+ $ git config --global user.email "your_email@youremail.com"</code></pre>
+<p>进入要上传的仓库，右键git bash，添加远程地址：
+
+</p>
+<pre><code>$ git remote add origin git@github.com:yourName/yourRepo.git</code></pre>
+<p>这里特别要注意，后面的yourName和yourRepo表示你再github的用户名和刚才github远端的仓库名字，
+加完之后进入.git，打开config，这里会多出一个remote “origin”内容，
+这就是刚才添加的远程地址，也可以直接修改config来配置远程地址。
+
+</p>
+<h3>四、提交、上传</h3>
+<p>接下来在本地仓库里添加一些文件，比如README，
+
+</p>
+<pre><code>$ git add README
+$ git commit -m "first commit"</code></pre>
+<p>上传到github：
+
+</p>
+<pre><code>$ git push origin master</code></pre>
+<p>git push命令会将本地仓库推送到远程服务器。
+git pull命令则相反。
+
+</p>
+<p>修改完代码后，使用git status可以查看文件的差别，使用git add 添加要commit的文件，
+也可以用git add -i来智能添加文件。之后git commit提交本次修改，git push上传到github。
+
+</p>
+<h3>六、其他的一些东西</h3>
+<h5>gitignore文件</h5>
+<p>.gitignore顾名思义就是告诉git需要忽略的文件，这是一个很重要并且很实用的文件。
+一般我们写完代码后会执行编译、调试等操作，这期间会产生很多中间文件和可执行文件，
+这些都不是代码文件，是不需要git来管理的。我们在git status的时候会看到很多这样的文件，
+如果用git add -A来添加的话会把他们都加进去，而手动一个个添加的话也太麻烦了。
+这时我们就需要.gitignore了。比如一般c#的项目我的.gitignore是这样写的：
+
+</p>
+<pre><code>bin  
+*.suo  
+obj  </code></pre>
+<p>bin和obj是编译目录，里面都不是源代码，忽略；suo文件是vs2010的配置文件，不需要。
+这样你在git status的时候就只会看到源代码文件了，就可以放心的git add -A了。
+
+</p>
+<h5>tag</h5>
+<p>我们可以创建一个tag来指向软件开发中的一个关键时期，
+比如版本号更新的时候可以建一个“v2.0”、“v3.1”之类的标签，这样在以后回顾的时候会比较方便。
+tag的使用很简单，主要操作有：查看tag、创建tag、验证tag以及共享tag。
+
+</p>
+<p>Edit By <a href="http://mahua.jser.me">MaHua</a></p>
+</body></html>
